@@ -6,130 +6,111 @@
 
 #define VERSION_STRING QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION
 #define _______ KC_TRNS
-#define X_____X KC_TRNS
 #define KC_ATM LGUI(LSFT(KC_P))
-#define KC_ATP LGUI(LCTL(KC_P))
-#define TO_NORM TO(NORMAL_MODE)
+#define KC_TMUX LCTL(KC_B)
+#define SUP_ESC LT(NORMAL_MODE, KC_ESC)
+#define SUP_ENT LT(NORMAL_MODE, KC_ENT)
+#define CMD_SPC GUI_T(KC_SPC)
+#define CMD_BSP GUI_T(KC_BSPC)
+
+// Pasteboard
+#define KC_PSTB LGUI(LALT(KC_V))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-  /* Normal mode
-  *
-  * ,--------------------------------------------------.           ,--------------------------------------------------.
-  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
-  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-  * |  TAB   |      | WORD |  END |      |      |      |           |      | YANK | UNDO |      | OPEN |  PUT |        |
-  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-  * |    ⎋   |      |      |  DEL |      |      |------|           |------|  ←   |  ↓   |  ↑   |  →   |      |    ⎋   |
-  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-  * | SHIFT  |      |      |      |VISUAL| BACK |      |           |      |      |      |      |      |      | SHIFT  |
-  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-  *   |      |      |      |      |      |                                       |      |      |      |      |      |
-  *   `----------------------------------'                                       `----------------------------------'
-  *                                        ,-------------.       ,-------------.
-  *                                        |      |      |       |      |      |
-  *                                 ,------|------|------|       |------+------+------.
-  *                                 |      |      |      |       |      |      |      |
-  *                                 |SPACE |DELETE|------|       |------|ENTER |BACKSP|
-  *                                 |      |      |      |       |      |      |      |
-  *                                 `--------------------'       `--------------------'
-  */
-  [NORMAL_MODE] = KEYMAP(
-    // Layer 2 Left Hand
-    X_____X,X_____X,X_____X,X_____X,X_____X,X_____X,X_____X,
-    KC_TAB ,X_____X,VIM_W,  VIM_E  ,X_____X,X_____X,X_____X,
-    X_____X,VIM_A  ,VIM_S  ,VIM_D  ,X_____X,X_____X,
-    KC_LSFT,X_____X,VIM_X  ,VIM_C  ,VIM_V  ,VIM_B  ,X_____X,
-    KC_LCTL,KC_LALT,X_____X,X_____X,X_____X,
-
-                                            KC_HOME,KC_END ,
-                                            TO(SYMB),
-                                            GUI_T(KC_SPC),  KC_ESC ,_______,
-
-
-    // Layer 2 Right Hand
-                              X_____X,X_____X,X_____X,X_____X,X_____X,X_____X,X_____X,
-                              X_____X,VIM_Y  ,VIM_U  ,VIM_I  ,VIM_O  ,VIM_P  ,X_____X,
-                                      VIM_H  ,VIM_J  ,VIM_K  ,VIM_L  ,X_____X,X_____X,
-                              X_____X,X_____X,X_____X,X_____X,X_____X,X_____X,KC_LSFT,
-                                              X_____X,X_____X,X_____X,KC_RALT,KC_RCTL,
-
-    KC_PGUP,  KC_PGDN,
-    TO(SYMB),
-    KC_DEL , KC_ENT, GUI_T(KC_BSPC)
-),
 
   /* Insert mode
   *
   * ,--------------------------------------------------.           ,--------------------------------------------------.
-  * | NORMAL |   1  |   2  |   3  |   4  |   5  | ⇧⌘P  |           | PROJ |   6  |   7  |   8  |   9  |   0  |   -    |
+  * | NORMAL |   1  |   2  |   3  |   4  |   5  | ⇧⌘P  |           | ⌥⌘V  |   6  |   7  |   8  |   9  |   0  |   -    |
   * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-  * |    ⇥   |   Q  |   W  |   E  |   R  |   T  |  `   |           |   -  |   Y  |   U  |   I  |   O  |   P  |   \    |
+  * |  TAB   |   Q  |   W  |   E  |   R  |   T  |  `   |           |   -  |   Y  |   U  |   I  |   O  |   P  |   \    |
   * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-  * |    ⎋   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   '    |
+  * |  CAPS  |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   '    |
   * |--------+------+------+------+------+------|   =  |           |   +  |------+------+------+------+------+--------|
-  * |   L⇧   |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   R⇧   |
+  * |  LSFT  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   RSFT |
   * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-  *   |  ⌃  |   ⌥  |  (   |  [   |   {  |                                       |  }   |  ]   |   )  |   ⌥   |   ⌃  |
+  *   | LCTL | LALT |  (   |  [   |   {  |                                       |  }   |  ]   |   )  | RALT  | RCTL |
   *   `----------------------------------'                                       `----------------------------------'
   *                                        ,-------------.       ,-------------.
   *                                        | HOME | END  |       | PGDN | PGUP |
   *                                 ,------|------|------|       |------+------+------.
-  *                                 |SPACE |      |      |       |      |      | BSPC |
-  *                                 |      |NORMAL|------|       |------| ENTER|      |
-  *                                 |   ⌘  |      |      |       |      |      |   ⌘  |
+  *                                 |SPACE | ESC  | SYM  |       | SYM  | ENTER| BSPC |
+  *                                 |      |      |------|       |------|      |      |
+  *                                 | CMD  | NORM | ^B   |       | ^B   | NORM | CMD  |
   *                                 `--------------------'       `--------------------'
   */
   [INSERT_MODE] = KEYMAP(
     // Left Hand
     NOR_MOD,KC_1,   KC_2,   KC_3,    KC_4,   KC_5, KC_ATM,
     KC_TAB ,KC_Q,   KC_W,   KC_E,    KC_R,   KC_T, KC_GRV,
-    KC_ESC ,KC_A,   KC_S,   KC_D,    KC_F,   KC_G,
+    KC_CAPS,KC_A,   KC_S,   KC_D,    KC_F,   KC_G,
     KC_LSFT,KC_Z,   KC_X,   KC_C,    KC_V,   KC_B, KC_EQL,
     KC_LCTL,KC_LALT,KC_LPRN,KC_LBRC, KC_LCBR,
 
-                                            KC_HOME,KC_END ,
-                                            TO(SYMB),
-                                            GUI_T(KC_SPC),KC_ESC ,TO_NORM,
+                                                    KC_HOME,KC_END ,
+                                                           MO(SYM),
+                                            CMD_SPC,SUP_ESC,KC_TMUX,
 
 
     // Right Hand
-                              KC_ATP , KC_6, KC_7,   KC_8,    KC_9,   KC_0,   KC_MINS,
+                              KC_PSTB, KC_6, KC_7,   KC_8,    KC_9,   KC_0,   KC_MINS,
                               KC_MINS, KC_Y, KC_U,   KC_I,    KC_O,   KC_P,   KC_BSLS,
                                        KC_H, KC_J,   KC_K,    KC_L,   KC_SCLN,KC_QUOT,
                               KC_PLUS, KC_N, KC_M,   KC_COMM, KC_DOT, KC_SLSH,KC_RSFT,
                                              KC_RCBR,KC_RBRC, KC_RPRN,KC_RALT,KC_RCTL,
 
     KC_PGUP,  KC_PGDN,
-    TO(SYMB),
-    MO(MOUSE) , KC_ENT, GUI_T(KC_BSPC)
+    MO(SYM),
+    KC_TMUX,SUP_ENT,CMD_BSP
   ),
 
-  [SYMB] = KEYMAP(
-    // Left Hand
-    NOR_MOD,KC_F1,  KC_F2,  KC_F3,   KC_F4,  KC_F5,KC_ATM,
-    KC_TAB ,KC_Q,   KC_W,   KC_E,    KC_R,   KC_T, KC_GRV,
-    _______,KC_A,   KC_S,   KC_D,    KC_F,   KC_G,
-    KC_LSFT,KC_Z,   KC_X,   KC_C,    KC_V,   KC_B, KC_EQL,
-    KC_LCTL,KC_LALT,KC_LPRN,KC_LBRC, KC_LCBR,
+    /* Normal mode
+    *
+    * ,--------------------------------------------------.           ,--------------------------------------------------.
+    * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+    * |        |      | WORD |  END |      |      |      |           |      | YANK | UNDO |      | OPEN |  PUT |        |
+    * |--------+------+------+------+------+------| VOL+ |           | FFD  |------+------+------+------+------+--------|
+    * |        |      |      |      |      |      |------|           |------| Left | Down | Up   | Right|      |        |
+    * |--------+------+------+------+------+------| VOL- |           |      |------+------+------+------+------+--------|
+    * |        |      |      |      |      | BACK |      |           | REW  |      |      |      |      |      |        |
+    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+    *   |      |      |      |      |      |                                       |      |      |      |      |      |
+    *   `----------------------------------'                                       `----------------------------------'
+    *                                        ,-------------.       ,-------------.
+    *                                        |      |      |       |      |      |
+    *                                 ,------|------|------|       |------+------+------.
+    *                                 |      |      |      |       |      |      |      |
+    *                                 |      |      |------|       |------|      |      |
+    *                                 |      |      |      |       |      |      |      |
+    *                                 `--------------------'       `--------------------'
+    */
+    [NORMAL_MODE] = KEYMAP(
+      // Normal Layer Left Hand
+      NOR_MOD,KC_F1,  KC_F2,  KC_F3,   KC_F4,  KC_F5,KC_ATM,
+      _______,_______,VIM_W,  VIM_E  ,_______,_______,KC_VOLU,
+      _______,_______,_______,_______,_______,_______,
+      _______,_______,VIM_X  ,_______,VIM_V  ,VIM_B  ,KC_VOLD,
+      _______,_______,_______,_______,_______,
 
-                                                                _______,_______,
-                                                                        _______,
-                                                        _______,_______,TO_NORM,
+                                              _______,_______,
+                                              _______,
+                                              _______,_______,_______,
 
-    // Right Hand
-                              KC_ATP , KC_F6,KC_F7,  KC_F8,   KC_F9,  KC_F10, KC_F11,
-                              KC_MINS, KC_Y, KC_7,   KC_8,    KC_9,   KC_SLSH,   KC_F12,
-                                       KC_H, KC_4,   KC_5,    KC_6,   KC_MINS,KC_QUOT,
-                              KC_PLUS, KC_N, KC_1,   KC_2,    KC_3,   KC_PLUS,KC_RSFT,
-                                             KC_0,   KC_RBRC, KC_RPRN,KC_EQL,KC_RCTL,
 
-    _______,_______,
-    _______,
-    _______,_______,_______
+      // Normal Layer Right Hand
+                                _______,_______,_______,_______,_______,_______,_______,
+                                KC_MFFD,VIM_Y  ,VIM_U  ,VIM_I  ,VIM_O  ,VIM_P  ,_______,
+                                        VIM_H  ,VIM_J  ,VIM_K  ,VIM_L  ,_______,_______,
+                                KC_MRWD,_______,_______,_______,_______,_______,_______,
+                                                _______,_______,_______,_______,_______,
+
+      _______,_______,
+      _______,
+      _______,_______,_______
   ),
 
-  [MOUSE] = KEYMAP(
+  [SYM] = KEYMAP(
     // Left Hand
     _______,_______,_______,_______,_______,_______,_______,
     _______,_______,_______,_______,_______,_______,_______,
@@ -143,15 +124,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Right Hand
                               _______,_______,_______,_______,_______,_______,_______,
-                              _______,_______,KC_BTN1,KC_BTN3,KC_BTN2,_______,_______,
-                                      KC_MS_L,KC_MS_D,KC_MS_U,KC_MS_R,_______,_______,
-                              _______,_______,_______,_______,_______,_______,_______,
-                                              _______,_______,_______,_______,_______,
+                              _______,_______,KC_7   ,KC_8   ,KC_9   ,KC_SLSH,_______,
+                                      _______,KC_4   ,KC_5   ,KC_6   ,KC_MINS,_______,
+                              _______,_______,KC_1   ,KC_2   ,KC_3   ,KC_PLUS,_______,
+                                              KC_0   ,KC_RBRC,KC_RPRN,KC_EQL ,_______,
 
     _______,_______,
     _______,
     _______,_______,_______
   ),
+
 };
 
 const uint16_t PROGMEM fn_actions[] = {
@@ -188,23 +170,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
-    case VIM_C:
-      if (record->event.pressed) {
-        switch(VIM_QUEUE) {
-          case KC_NO: SHIFTED ? VIM_CHANGE_LINE() : VIM_LEADER(VIM_C); break;
-          case VIM_C: VIM_CHANGE_WHOLE_LINE(); break;
-        }
-      }
-      return false;
-
-    case VIM_D:
-      if (record->event.pressed) {
-        switch(VIM_QUEUE) {
-          case KC_NO: SHIFTED ? VIM_DELETE_LINE() : VIM_LEADER(VIM_D); break;
-          case VIM_D: VIM_DELETE_WHOLE_LINE(); break;
-        }
-      }
-      return false;
+    // case VIM_C:
+    //   if (record->event.pressed) {
+    //     switch(VIM_QUEUE) {
+    //       case KC_NO: SHIFTED ? VIM_CHANGE_LINE() : VIM_LEADER(VIM_C); break;
+    //       case VIM_C: VIM_CHANGE_WHOLE_LINE(); break;
+    //     }
+    //   }
+    //   return false;
+    //
+    // case VIM_D:
+    //   if (record->event.pressed) {
+    //     switch(VIM_QUEUE) {
+    //       case KC_NO: SHIFTED ? VIM_DELETE_LINE() : VIM_LEADER(VIM_D); break;
+    //       case VIM_D: VIM_DELETE_WHOLE_LINE(); break;
+    //     }
+    //   }
+    //   return false;
 
     case VIM_E:
       if (record->event.pressed) {
@@ -280,9 +262,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) { SHIFTED ? VIM_PUT_BEFORE() : VIM_PUT(); }
       return false;
 
-    case VIM_S:
-      if (record->event.pressed) { SHIFTED ? VIM_CHANGE_WHOLE_LINE() : VIM_SUBSTITUTE(); }
-      return false;
+    // case VIM_S:
+    //   if (record->event.pressed) { SHIFTED ? VIM_CHANGE_WHOLE_LINE() : VIM_SUBSTITUTE(); }
+    //   return false;
 
     case VIM_U:
       if (record->event.pressed) { VIM_UNDO(); }
