@@ -35,6 +35,7 @@ enum custom_keycodes {
   VIM_W,
   VIM_X,
   VIM_Y,
+  CYC_LYR,
   EPRM,
   VRSN,
   RGB_SLD,

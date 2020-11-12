@@ -5,7 +5,6 @@
 #include "vim.h"
 
 #define VERSION_STRING QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION
-#define _______ KC_TRNS
 #define KC_ATM LGUI(LSFT(KC_P))
 #define KC_TMUX LCTL(KC_B)
 #define SUP_ESC LT(NORMAL_MODE, KC_ESC)
@@ -13,42 +12,52 @@
 #define CMD_SPC GUI_T(KC_SPC)
 #define CMD_BSP GUI_T(KC_BSPC)
 
+#define MOD_VO LCTL(KC_LALT)
+#define TOGL_VO LGUI(KC_F5)
+#define VO_LEFT LCTL(LALT(KC_LEFT))
+#define VO_RGHT LCTL(LALT(KC_RIGHT))
+#define VO_UP LCTL(LALT(KC_UP))
+#define VO_DOWN LCTL(LALT(KC_DOWN))
+
 // Pasteboard
 #define KC_PSTB LGUI(LALT(KC_V))
+
+void cycle_layer(void);
+void toggle_voice_over(void);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* Insert mode
   *
-  * ,--------------------------------------------------.           ,--------------------------------------------------.
-  * | NORMAL |   1  |   2  |   3  |   4  |   5  | ⇧⌘P  |           | ⌥⌘V  |   6  |   7  |   8  |   9  |   0  |   -    |
-  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-  * |  TAB   |   Q  |   W  |   E  |   R  |   T  |  `   |           |   -  |   Y  |   U  |   I  |   O  |   P  |   \    |
-  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-  * |  CAPS  |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   '    |
-  * |--------+------+------+------+------+------|   =  |           |   +  |------+------+------+------+------+--------|
-  * |  LSFT  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   RSFT |
-  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-  *   | LCTL | LALT |  (   |  [   |   {  |                                       |  }   |  ]   |   )  | RALT  | RCTL |
-  *   `----------------------------------'                                       `----------------------------------'
-  *                                        ,-------------.       ,-------------.
-  *                                        | HOME | END  |       | PGDN | PGUP |
-  *                                 ,------|------|------|       |------+------+------.
-  *                                 |SPACE | ESC  | SYM  |       | SYM  | ENTER| BSPC |
-  *                                 |      |      |------|       |------|      |      |
-  *                                 | CMD  | NORM | ^B   |       | ^B   | NORM | CMD  |
-  *                                 `--------------------'       `--------------------'
+  * ,--------------------------------------------------.   ,--------------------------------------------------.
+  * | CYCLE  |   1  |   2  |   3  |   4  |   5  | ⇧⌘P  |   | ⌥⌘V  |   6  |   7  |   8  |   9  |   0  |   -    |
+  * |--------+------+------+------+------+-------------|   |------+------+------+------+------+------+--------|
+  * |  TAB   |   Q  |   W  |   E  |   R  |   T  |  `   |   |   -  |   Y  |   U  |   I  |   O  |   P  |   \    |
+  * |--------+------+------+------+------+------|      |   |      |------+------+------+------+------+--------|
+  * |  CAPS  |   A  |   S  |   D  |   F  |   G  |------|   |------|   H  |   J  |   K  |   L  |   ;  |   '    |
+  * |--------+------+------+------+------+------|   =  |   |   +  |------+------+------+------+------+--------|
+  * |  LSFT  |   Z  |   X  |   C  |   V  |   B  |      |   |      |   N  |   M  |   ,  |   .  |   /  |   RSFT |
+  * `--------+------+------+------+------+-------------'   `-------------+------+------+------+------+--------'
+  *   | LCTL | LALT |  (   |  [   |   {  |                               |  }   |  ]   |   )  | RALT  | RCTL |
+  *   `----------------------------------'                               `----------------------------------'
+  *                                      ,-------------.   ,-------------.
+  *                                      | HOME | END  |   | PGDN | PGUP |
+  *                               ,------|------|------|   |------+------+------.
+  *                               |SPACE | ESC  | SYM  |   | SYM  | ENTER| BSPC |
+  *                               |      |      |------|   |------|      |      |
+  *                               | CMD  | NORM | ^B   |   | ^B   | NORM | CMD  |
+  *                               `--------------------'   `--------------------'
   */
   [INSERT_MODE] = LAYOUT_ergodox(
     // Left Hand
-    NOR_MOD,KC_1,   KC_2,   KC_3,    KC_4,   KC_5, KC_ATM,
+    CYC_LYR,KC_1,   KC_2,   KC_3,    KC_4,   KC_5, KC_ATM,
     KC_TAB ,KC_Q,   KC_W,   KC_E,    KC_R,   KC_T, KC_GRV,
     KC_CAPS,KC_A,   KC_S,   KC_D,    KC_F,   KC_G,
     KC_LSFT,KC_Z,   KC_X,   KC_C,    KC_V,   KC_B, KC_EQL,
     KC_LCTL,KC_LALT,KC_LPRN,KC_LBRC, KC_LCBR,
 
                                                     KC_HOME,KC_END ,
-                                                           MO(SYM),
+                                                            MO(SYM),
                                             CMD_SPC,SUP_ESC,KC_TMUX,
 
 
@@ -59,42 +68,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                               KC_PLUS, KC_N, KC_M,   KC_COMM, KC_DOT, KC_SLSH,KC_RSFT,
                                              KC_RCBR,KC_RBRC, KC_RPRN,KC_RALT,KC_RCTL,
 
-    KC_PGUP,  KC_PGDN,
+    KC_PGUP,KC_PGDN,
     MO(SYM),
     KC_TMUX,SUP_ENT,CMD_BSP
   ),
 
     /* Normal mode
     *
-    * ,--------------------------------------------------.           ,--------------------------------------------------.
-    * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
-    * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-    * |        |      | WORD |  END |      |      |      |           |      | YANK | UNDO |      | OPEN |  PUT |        |
-    * |--------+------+------+------+------+------| VOL+ |           | FFD  |------+------+------+------+------+--------|
-    * |        |      |      |      |      |      |------|           |------| Left | Down | Up   | Right|      |        |
-    * |--------+------+------+------+------+------| VOL- |           |      |------+------+------+------+------+--------|
-    * |        |      |      |      |      | BACK |      |           | REW  |      |      |      |      |      |        |
-    * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-    *   |      |      |      |      |      |                                       |      |      |      |      |      |
-    *   `----------------------------------'                                       `----------------------------------'
-    *                                        ,-------------.       ,-------------.
-    *                                        |      |      |       |      |      |
-    *                                 ,------|------|------|       |------+------+------.
-    *                                 |      |      |      |       |      |      |      |
-    *                                 |      |      |------|       |------|      |      |
-    *                                 |      |      |      |       |      |      |      |
-    *                                 `--------------------'       `--------------------'
+    * ,--------------------------------------------------.   ,--------------------------------------------------.
+    * | CYCLE  |      |      |      |      |      |      |   |      |      |      |      |      |      |        |
+    * |--------+------+------+------+------+-------------|   |------+------+------+------+------+------+--------|
+    * |        |      | WORD |  END |      |      |      |   |      | YANK | UNDO |      | OPEN |  PUT |        |
+    * |--------+------+------+------+------+------| VOL+ |   | FFD  |------+------+------+------+------+--------|
+    * |        |      |      |      |      |      |------|   |------| Left | Down | Up   | Right|      |        |
+    * |--------+------+------+------+------+------| VOL- |   |      |------+------+------+------+------+--------|
+    * |        |      |      |      |      | BACK |      |   | REW  |      |      |      |      |      |        |
+    * `--------+------+------+------+------+-------------'   `-------------+------+------+------+------+--------'
+    *   |      |      |      |      |      |                               |      |      |      |      |      |
+    *   `----------------------------------'                               `----------------------------------'
+    *                                      ,-------------.   ,-------------.
+    *                                      |      |      |   |      |      |
+    *                               ,------|------|------|   |------+------+------.
+    *                               |      |      |      |   |      |      |      |
+    *                               |      |      |------|   |------|      |      |
+    *                               |      |      |      |   |      |      |      |
+    *                               `--------------------'   `--------------------'
     */
-    [NORMAL_MODE] = KEYMAP(
+    [NORMAL_MODE] = LAYOUT_ergodox(
       // Normal Layer Left Hand
-      NOR_MOD,KC_F1,  KC_F2,  KC_F3,   KC_F4,  KC_F5,KC_ATM,
+      CYC_LYR,KC_F1  ,KC_F2  ,KC_F3  ,KC_F4  ,KC_F5  ,_______,
       _______,_______,VIM_W,  VIM_E  ,_______,_______,KC_VOLU,
       _______,_______,_______,_______,_______,_______,
       _______,_______,VIM_X  ,_______,VIM_V  ,VIM_B  ,KC_VOLD,
       _______,_______,_______,_______,_______,
 
-                                              _______,_______,
-                                              _______,
+                                                      _______,_______,
+                                                              _______,
                                               _______,_______,_______,
 
 
@@ -110,9 +119,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,_______,_______
   ),
 
-  [SYM] = KEYMAP(
+  [SYM] = LAYOUT_ergodox(
     // Left Hand
-    _______,_______,_______,_______,_______,_______,_______,
+    CYC_LYR,_______,_______,_______,_______,_______,_______,
     _______,_______,_______,_______,_______,_______,_______,
     _______,_______,_______,_______,_______,_______,
     _______,_______,_______,_______,_______,_______,_______,
@@ -134,6 +143,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______
   ),
 
+  [VOICE_OVER] = LAYOUT_ergodox(
+
+    // Left Hand
+    CYC_LYR,_______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,
+
+                                                                _______,_______,
+                                                                        _______,
+                                                        _______,_______,_______,
+
+    // Right Hand
+                              _______,_______,_______,_______,_______,_______,_______,
+                              _______,_______,_______,_______,_______,_______,_______,
+                                      VO_LEFT,VO_DOWN,VO_UP  ,VO_RGHT,_______,_______,
+                              _______,_______,_______,_______,_______,_______,_______,
+                                              _______,_______,_______,_______,_______,
+
+    _______,_______,
+    _______,
+    _______,_______,_______
+  ),
+
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -144,6 +178,26 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   }
 return MACRO_NONE;
 };
+
+void toggle_voice_over() {
+  PRESS(KC_LGUI);
+    TAP(KC_F5);
+  RELEASE(KC_LGUI);
+}
+
+void cycle_layer() {
+  if (layer_state_is(3)) {
+    toggle_voice_over();
+    layer_move(0);
+  } else if (layer_state_is(2)) {
+    layer_move(3);
+    toggle_voice_over();
+  } else if (layer_state_is(1)) {
+    layer_move(2);
+  } else if (layer_state_is(0)) {
+    layer_move(1);
+  }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   bool SHIFTED = (keyboard_report->mods & MOD_BIT(KC_LSFT)) |
@@ -292,6 +346,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) { SHIFTED ? VIM_YANK_LINE() : VIM_YANK(); }
       return false;
 
+    case CYC_LYR:
+      if (record->event.pressed) { cycle_layer(); }
+      return false;
+
     // dynamically generate these.
     case EPRM:
       if (record->event.pressed) { eeconfig_init(); }
@@ -300,7 +358,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) { SEND_STRING(VERSION_STRING); }
       return false;
     case RGB_SLD:
-      if (record->event.pressed) { rgblight_mode(1); }
+      // if (record->event.pressed) { rgblight_mode(1); }
       return false;
   }
 
@@ -314,7 +372,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // }
 
   return true;
-};
+}
 
 void matrix_init_user(void) {
   debug_enable = true;
