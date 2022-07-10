@@ -1,1 +1,2 @@
 DYNAMIC_MACRO_ENABLE = yes
+# DEBOUNCE_TYPE = sym_g
