@@ -5,6 +5,7 @@
 
 #include "config_common.h"
 
+// Plugin in to the right side
 /* #define EE_HANDS */
 #define MASTER_RIGHT
 
@@ -47,3 +48,6 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+
+/* https://docs.qmk.fm/#/tap_hold?id=permissive-hold */
+#define PERMISSIVE_HOLD
