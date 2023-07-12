@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "author": "Benny Powers",
+  "notes": "QWERTY nusah for cantor keyboard",
+  "documentation": "You can convert this file to a keymap.c using this command: `qmk json2c -kb cantor -km nusah`\n\nYou can compile this keymap using this command: `qmk compile -kb cantor -km nusah\"\n",
+  "keyboard": "cantor",
+  "keymap": "nusah",
+  "layout": "LAYOUT_split_3x6_3",
+  "macros": [
+    [
+      { "action": "down", "keycodes": ["LALT", "PRINT_SCREEN"] },
+      "s",
+      { "action": "up", "keycodes": ["LALT", "PRINT_SCREEN"] }
+    ]
+  ],
+  "layers": [
+    [
+      "KC_TAB"  , "KC_Q"       , "KC_W"       , "KC_E"       , "KC_R"       , "KC_T"          ,
+      "KC_Y"    , "KC_U"       , "KC_I"       , "KC_O"       , "KC_P"       , "LT(4,KC_BSLS)" ,
+
+      "KC_LALT" , "KC_A"       , "KC_S"       , "LT(2,KC_D)" , "LT(1,KC_F)" , "KC_G" ,
+      "KC_H"    , "LT(1,KC_J)" , "LT(2,KC_K)" , "KC_L"       , "KC_SCLN"    , "KC_QUOT" ,
+
+      "KC_LSFT" , "KC_Z"       , "KC_X"       , "KC_C"       , "KC_V"       , "KC_B" ,
+      "KC_N"    , "KC_M"       , "KC_COMM"    , "KC_DOT"     , "KC_SLSH"    , "KC_RSFT" ,
+
+      "KC_LGUI" , "LT(3,KC_SPC)" , "LCTL_T(KC_ESC)"  ,
+      "KC_RCTL" , "LT(3,KC_ENT)" , "RGUI_T(KC_BSPC)"
+    ],
+    [
+      "_______" , "KC_EXLM" , "KC_AT"   , "KC_HASH" , "KC_DLR"  , "KC_PERC" ,
+      "KC_CIRC" , "KC_AMPR" , "KC_ASTR" , "KC_LPRN" , "KC_RPRN" , "_______" ,
+
+      "_______" , "_______" , "_______" , "_______" , "_______" , "KC_MINS" ,
+      "KC_EQL"  , "_______" , "_______" , "_______" , "_______" , "_______" ,
+
+      "_______" , "_______" , "KC_LPRN" , "KC_LBRC" , "KC_LCBR" , "KC_UNDS" ,
+      "KC_UNDS" , "KC_RCBR" , "KC_RBRC" , "KC_RPRN" , "_______" , "_______" ,
+
+      "_______" , "_______" , "_______" ,
+      "_______" , "_______" , "_______"
+    ],
+    [
+      "KC_GRV"  , "_______" , "KC_P7" , "KC_P8" , "KC_P9"   , "_______" ,
+      "_______" , "KC_P7"   , "KC_P8" , "KC_P9" , "_______" , "_______" ,
+
+      "_______" , "_______" , "KC_P4" , "KC_P5" , "KC_P6"   , "KC_GRV"  ,
+      "KC_EQL"  , "KC_P4"   , "KC_P5" , "KC_P6" , "_______" , "_______" ,
+
+      "_______" , "KC_P0"   , "KC_P1" , "KC_P2" , "KC_P3"   , "KC_PDOT" ,
+      "KC_P0"   , "KC_P1"   , "KC_P2" , "KC_P3" , "KC_DOT"  , "_______" ,
+
+      "_______" , "_______"    , "_______" ,
+      "_______" , "_______"    , "_______"
+    ],
+    [
+      "QK_BOOT" , "_______" , "_______" , "_______" , "_______" , "_______" ,
+      "KC_HOME" , "KC_PGDN" , "KC_PGUP" , "KC_END"  , "KC_PSCR" , "_______" ,
+
+      "_______" , "_______" , "_______" , "_______" , "_______" , "_______" ,
+      "KC_LEFT" , "KC_DOWN" , "KC_UP"   , "KC_RGHT" , "_______" , "_______" ,
+
+      "_______" , "_______" , "_______" , "_______" , "_______" , "_______" ,
+      "_______" , "_______" , "_______" , "_______" , "_______" , "_______" ,
+
+      "_______" , "_______" , "_______" ,
+      "_______" , "_______" , "_______"
+    ],
+    [
+      "QK_BOOT" , "_______" , "KC_F7"   , "KC_F8"   , "KC_F9"      , "KC_F10"  ,
+      "KC_NUM"  , "_______" , "_______" , "_______" , "QK_MACRO_0" , "_______" ,
+
+      "_______" , "_______" , "KC_F4"   , "KC_F5"   , "KC_F6"      , "_______" ,
+      "KC_BRID" , "KC_VOLD" , "KC_VOLU" , "KC_BRIU" , "_______"    , "_______" ,
+
+      "KC_CAPS" , "_______" , "KC_F1"   , "KC_F2"   , "KC_F3"      , "_______" ,
+      "_______" , "_______" , "_______" , "_______" , "_______"    , "_______" ,
+
+      "_______" , "_______" , "_______" ,
+      "_______" , "_______" , "_______"
+    ]
+  ]
+}
