@@ -23,3 +23,5 @@
 
 #define MASTER_RIGHT
 
+#define SPLIT_WATCHDOG_ENABLE      // https://github.com/diepala/cantor/issues/15#event-13754273368
+#define SPLIT_WATCHDOG_TIMEOUT 3000
